@@ -1,0 +1,308 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN" "html.d1td">
+<HTML>
+<HEAD><TITLE>
+Hercules Version 2: Installation and Operation</TITLE>
+<LINK REL=STYLESHEET TYPE="text/css" HREF="hercules.css">
+</HEAD>
+<BODY BGCOLOR="#ffffcc" TEXT="#000000" LINK="#0000A0"
+      VLINK="#008040" ALINK="#000000">
+
+<h1>Installing and Operating Hercules Version 2</h1>
+
+<h2>Installation Procedure</h2>
+<h3>Building from source</h3>
+<p>These instructions apply to the Linux version. Volker Bandke has
+instructions on how to build the Win32 version at <a
+href="http://www.bsp-gmbh.com/hercules/nude_w32.html">http://www.bsp-gmbh.com/hercules/nude_w32.html</a>.
+<ol>
+<li>Download the distribution file
+<a href="hercules-2.16.5.tar.gz">hercules-2.16.5.tar.gz</a>
+<p>
+<em>Notes:</em>
+<ol>
+<li>By downloading this file you agree to the terms
+    of the <a href="herclic.html">Q Public Licence</a>.
+<li>IE4 may report "problem with security settings or file does
+    not exist" when downloading this file.  I do not know why.
+    If you experience this problem, use IE5 or Netscape Navigator
+    instead.
+</ol>
+<p>
+<li>Use these commands to unzip the distribution file:
+<pre>tar xvzf ../hercules-2.16.5.tar.gz
+cd hercules-2.16.5</pre>
+<li>Configure Hercules for your system:
+
+<p><code>./configure</code>
+
+<p>By default, the configure script will attempt to guess appropriate
+	  compiler optimization flags for your system.  If its guesses
+	  turn out to be wrong, you can disable all optimization by
+	  passing the <code>--disable-optimization</code> option to
+	  configure, or specify your own optimization flags with
+	  <code>--enable-optimization=FLAGS</code>
+
+<p>For additional configuration options, run <code>./configure
+	      --help</code>
+
+<li>Build the executables: <p><code>make</code>
+
+<li>Install the programs: as root: <p><code>make install</code>
+</ol>
+
+<em>Important:</em>
+You must use the egcs compiler and the glibc2 library.
+Refer to the <a href="hercfaq.html#software">
+Hercules Frequently-Asked Questions</a> page for required
+compiler and other software levels.
+
+<h3>Installing prebuilt RPMs:</h3>
+<ol>
+<li>Download the RPM file you want:
+<ul>
+<li><a href="hercules-2.16.5-1.i686.rpm">hercules-2.16.5-1.i686.rpm</a>: Intel
+Pentium Pro/Pentium II
+<li><a href="hercules-2.16.5-1.i586.rpm">hercules-2.16.5-1.i586.rpm</a>: Intel
+Pentium
+<li><a href="hercules-2.16.5-1.i386.rpm">hercules-2.16.5-1.i386.rpm</a>: Intel
+386
+<li><a href="hercules-2.16.5-1.alpha.rpm">hercules-2.16.5-1.alpha.rpm</a>:
+Alpha (all flavors)
+</ul>
+<li>Install the RPM:
+<br><code>rpm -Uvh</code> <i>RPMfile</i>
+</ol>
+This will leave the Hercules executables in /usr/bin, where you can run them
+from anywhere. Sample configuration files will be placed in /etc/hercules,
+and the IPLable card deck for the ZZSA standalone utility will be placed in
+/var/share/hercules.
+
+<h3>Installing Debian packages:</h3>
+
+Debian packages are available for "woody" and later releases.  As of
+this writing, "woody" is not yet released.
+
+<ul>
+<li>Using apt: <code>apt-get install hercules</code>
+<li>Manually with dpkg:
+  <ol>
+    <li>Download a <a href="http://packages.debian.org/hercules">.deb
+		package</a>
+    <li><code>dpkg -i</code> <i>DEB</i>
+  </ol>
+</ul>
+
+<h2>Configuration Procedure</h2>
+<p>
+You will need to amend the configuration file
+<em><b>hercules.cnf</b></em> to reflect your device layout and intended
+mode of operation (S/370, ESA/390, or z/Architecture).
+See the <a href="hercconf.html">Hercules Configuration File</a> page for
+a complete description.
+
+<h2>Creating DASD volumes</h2>
+<p>
+The <a href="hercload.html">Creating Hercules DASD</a> page
+describes various methods of creating and loading virtual DASD
+volumes. The compressed CKD DASD support is described in <a
+href="cckddasd.html">this page</a>.
+
+<h2>Operating Procedure</h2>
+<p>
+<em>Note: If you intend to run any licensed software on your PC
+using Hercules, it is your responsibility to ensure that you do not
+violate the software vendor's licensing terms.</em>
+
+<h4>Loading a standalone program or operating system</h4>
+<p>
+To start Hercules enter this command at the Unix shell prompt:
+<pre><code>hercules [-f <em>filename</em>] [&gt; <em>logfile</em>]</code></pre>
+where <code><em>filename</em></code> is the name of the configuration
+file
+(the default is <b><em>hercules.cnf</em></b>),
+and <code><em>logfile</em></code> is an optional log file which will
+receive a copy of all messages displayed on the control panel.
+
+<p>
+Next connect a tn3270 client to the console port (normally port 3270).
+The client will be connected to the first 3270 device address specified
+in the configuration file (this should be the master console address).
+If your master console is a 1052 or 3215, connect a telnet client
+instead of a tn3270 client.
+
+<p>
+Now you can enter an ipl command from the control panel.
+
+
+<h4>Panel commands</h4>
+<p>
+<pre>
+cpu <em>n</em>   Set target CPU for subsequent commands
+psw     Display program status word
+gpr     Display general-purpose registers
+fpr     Display floating-point registers
+cr      Display control registers
+ar      Display access registers
+pr      Display prefix register
+clocks  Display todclock, clock comparator, cpu timer, and interval timer (370 mode only)
+
+r<em>x</em>      Display 64 bytes starting at real address x
+r<em>x.n</em>    Display n bytes starting at real address x
+r<em>x-y</em>    Display real storage locations x to y
+v<em>x</em>      Display 64 bytes starting at virtual address x
+v<em>x.n</em>    Display n bytes starting at virtual address x
+v<em>x-y</em>    Display virtual storage locations x to y
+f-<em>x</em>     Mark storage frame at address x unusable
+f+<em>x</em>     Mark storage frame at address x usable
+
+r<em>x</em>=<em>hexvalue</em>   Alter real storage location x
+v<em>x</em>=<em>hexvalue</em>   Alter virtual storage location x
+
+t+      Turn on CPU instruction tracing
+t-      Turn off CPU instruction tracing
+s+      Turn on CPU single-step mode
+s-      Turn off CPU single-step mode
+g       Go (turn off CPU single-step mode and start CPU)
+
+b<em>x</em>      Set breakpoint at address x
+b-      Clear breakpoint
+
+t+ckd            Turn on CKD key tracing
+t-ckd            Turn off CKD key tracing
+t+<em>xxxx</em>  Turn on CCW tracing for device number xxxx
+t-<em>xxxx</em>  Turn off CCW tracing for device number xxxx
+s+<em>xxxx</em>  Turn on CCW single-step mode for device number xxxx
+s-<em>xxxx</em>  Turn off CCW single-step mode for device number xxxx
+i<em>xxxx</em>   Generate an I/O attention interrupt for device number xxxx
+k<em>xxxx</em>   Print CCKD internal trace for device number xxxx
+ds<em>xxxx</em>  Display subchannel status for device number xxxx
+
+archmode S/370|ESA/390|ESAME  Set architecture mode
+loadparm [<em>xxxxxxxx</em>]           Display or set the IPL parameter
+loadcore <em>xxxxxxxx</em> [<em>address</em>]   Load core image from file xxxxxxxx
+savecore <em>xxxxxxxx</em> [<em>start/*</em>] [<em>end/*</em>] save core to file xxxxxxxx
+loadtext <em>xxxxxxxx</em> [<em>address</em>]   Load object deck xxxxxxxx
+ipl <em>xxxx</em>                      IPL from device number xxxx
+
+ext       Generate an external interrupt
+stop      Stop CPU
+start     Start CPU
+stopall   Stop all CPUs
+startall  Start all CPUs
+restart   Generate a restart interrupt and start CPU
+store     Store status
+ipending  Display pending interrupts
+quit|exit Terminate Hercules
+quiet     Toggles panel quiet mode
+
+devlist  Display configured devices
+attach <em>xxxx</em> <em>type</em> [ <em>args</em> ]  Create device xxxx
+detach <em>xxxx</em>  Delete device xxxx
+define <em>xxxx</em> <em>yyyy</em>  Rename device number xxxx to yyyy
+devinit <em>xxxx</em> [ <em>args</em> ]  Reinitialize device xxxx
+
+.<em>text</em>   Enter an SCP command via the HMC system console
+!<em>text</em>   Enter an SCP priority message via the HMC system console
+
+toddrag [<em>n</em>]  Display or set TOD clock drag factor
+
+pgmtrace <em>n</em>   Turn on program interrupt tracing for interrupt code n
+pgmtrace -<em>n</em>  Turn off program interrupt tracing for interrupt code n
+
+panrate slow &#124 fast &#124 <em>n</em>   Set panel refresh rate to n milliseconds
+</pre>
+
+<p> 
+The <em>ipl</em> command may also be used to perform a load from cdrom or
+server.  For example if a standard SuSE S/390 Linux distribution CD is loaded
+and mounted on /cdrom for example, this cdrom may then be ipl-ed by:
+<em>ipl /cdrom/suse.ins</em>
+<p>
+The <em>attach</em> and <em>detach</em> commands are used to dynamically
+add or remove devices from the configuration,
+and the <em>define</em> command can be used to alter the device number
+of an existing device.
+<p>
+The <em>devinit</em> command can be used to reopen an existing device.
+The <em>args</em> (if specified) override the arguments
+specified in the configuration file for this device.
+The device type cannot be changed and must not be specified.
+This command can be used to rewind a tape, to mount a new tape or
+disk image file on an existing device, to load a new card deck
+into a reader, or to close and reopen a printer or punch device.
+<p>
+In single-step mode, pressing the enter key will advance to the
+next instruction.
+<p>
+There is also an alternate semi-graphical control panel.  Press Esc to
+switch between the command line format and the semi-graphical format.
+Press ? to obtain help in either control panel.
+
+
+<h4>The &nbsp;<u>hercules.rc</u> &nbsp;(run-commands)&nbsp; file:</h4>
+<p>
+Hercules also supports the ability to automatically execute panel commands
+upon startup via the 'run-commands' file. If the run-commands file
+is found to exist when Hercules starts, each line contained within it is
+read and interpreted as a panel command exactly as if the command were
+entered from the HMC system console.
+<p>
+The default filename for the run-commands file is "hercules.rc", but may be
+overridden by setting the "<tt>HERCULES_RC</tt>" environment variable to the
+desired filename.
+<p>
+Except for the 'pause' command (see paragraph further below), each command
+read from the run-commands file is logged to the console preceded by a '> '
+(greater-than sign) character so you can easily distinguish between panel
+commands entered from the keyboard from those entered via the .rc file.
+<p>
+Lines starting with '<tt>#</tt>' are treated as "silent comments" and are
+thus not logged to the console. Line starting with '<tt>*</tt>' however are
+treated as "loud comments" and <i>will</i> be logged.
+<p>
+In addition to being able to execute any valid panel command (including the
+'sh' shell command) via the run-commands file, an additional
+'<tt><b>pause <i>nnn</i></b></tt>' command is supported in order to introduce
+a brief delay before reading and processing the next line in the file. The
+value <tt><i>nnn</i></tt> can be any number from 1 to 999 and specifies the
+number of seconds to delay before reading the next line. Creative use of the
+run-commands file can completely automate Hercules startup.
+
+<p><center><hr width=15% noshade></center>
+<p>
+<h2>Technical Support</h2>
+If you have a question about Hercules, please refer to the
+<a href="hercfaq.html">Hercules Frequently-Asked Questions</a> page first.
+If your question and/or concern is not addressed in the FAQ, please feel
+free to post your question to the
+Hercules-390 forum:
+<blockquote><pre>
+<b>Community email addresses:</b>
+  Post message: <a href="mailto:hercules-390@yahoogroups.com?subject=Hercules Question">hercules-390@yahoogroups.com</a>
+  Subscribe:    <a href="mailto:hercules-390-subscribe@yahoogroups.com?subject=Subscribe">hercules-390-subscribe@yahoogroups.com</a>
+  Unsubscribe:  <a href="mailto:hercules-390-unsubscribe@yahoogroups.com?subject=Unsubscribe">hercules-390-unsubscribe@yahoogroups.com</a>
+  List owner:   <a href="mailto:hercules-390-owner@yahoogroups.com?subject=Hercules">hercules-390-owner@yahoogroups.com</a>
+
+<b>Files and archives at:</b>
+  <a href="http://groups.yahoo.com/group/hercules-390">http://groups.yahoo.com/group/hercules-390</a>
+</pre></blockquote><p>
+The <b><u>Hercules-390 forum</u></b> is in fact your <u>primary source for Hercules support</u>,
+and you are strongly encouraged to subscribe. We have a vibrant, active
+community of over 2400 members, many of which are very knowledgeable in
+many different areas of mainframe technology, both from a hardware point of
+view as well as from an operating system and software point of view.
+<p>
+In addition to the main Hercules-390 forum, other more specialized Hercules forums
+also exist to provide more focused support for a variety of popular IBM mainframe
+operating systems, such as DOS/VS, VM (VM/370, VM/SP, and VM/ESA), and MVS.
+<p>
+<small><i>Note! the use of Yahoo! as host for the Hercules-390 and related forums
+should in no way be interpreted as an endorsement of the Yahoo! service.</i><small>
+<p><center><hr width=15% noshade>
+<a href="index.html"><img src="gifs/back.gif" border=0 alt="back"></a>
+</center>
+
+<small>
+<p>Last updated 8 July 2002
+</BODY>
+</HTML>
