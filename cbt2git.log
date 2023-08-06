@@ -1,0 +1,38 @@
+2023-08-06 06:19:00.077158 - Initialized conversion of CBT659
+2023-08-06 06:19:01.616636 - Received CBT.V505.FILE659.PDS from FILE659.XMI 
+2023-08-06 06:19:01.619168 - Found $$$#DATE.txt (text/plain) in CBT.V505.FILE659.PDS, moved to PDS/$$$#DATE
+2023-08-06 06:19:01.620245 - Found $$NOTE01.txt (text/plain) in CBT.V505.FILE659.PDS, moved to PDS/$$NOTE01
+2023-08-06 06:19:01.621406 - Found $$README.txt (text/plain) in CBT.V505.FILE659.PDS, moved to PDS/$$README
+2023-08-06 06:19:01.622344 - Found $INSTRUC.txt (text/plain) in CBT.V505.FILE659.PDS, moved to PDS/$INSTRUC
+2023-08-06 06:19:01.623455 - Found @FILE659.txt (text/plain) in CBT.V505.FILE659.PDS, moved to PDS/@FILE659
+2023-08-06 06:19:01.624459 - Found ALLOC.jcl (text/plain) in CBT.V505.FILE659.PDS, moved to PDS/ALLOC
+2023-08-06 06:19:01.625390 - Found AWSTAPE.jcl (text/plain) in CBT.V505.FILE659.PDS, moved to PDS/AWSTAPE
+2023-08-06 06:19:01.626271 - Found DASDINIT.txt (text/plain) in CBT.V505.FILE659.PDS, moved to PDS/DASDINIT
+2023-08-06 06:19:01.627319 - Found DFDSSBK.jcl (text/plain) in CBT.V505.FILE659.PDS, moved to PDS/DFDSSBK
+2023-08-06 06:19:01.628339 - Found DFDSSRS.jcl (text/plain) in CBT.V505.FILE659.PDS, moved to PDS/DFDSSRS
+2023-08-06 06:19:01.629298 - Found DFDSSSAR.jcl (text/plain) in CBT.V505.FILE659.PDS, moved to PDS/DFDSSSAR
+2023-08-06 06:19:01.630333 - Found DISCLAIM.txt (text/plain) in CBT.V505.FILE659.PDS, moved to PDS/DISCLAIM
+2023-08-06 06:19:01.631347 - Found DISKMAP.jcl (text/plain) in CBT.V505.FILE659.PDS, moved to PDS/DISKMAP
+2023-08-06 06:19:01.632186 - Found FDRBACKV.jcl (text/plain) in CBT.V505.FILE659.PDS, moved to PDS/FDRBACKV
+2023-08-06 06:19:01.633003 - Found FDRRESTV.jcl (text/plain) in CBT.V505.FILE659.PDS, moved to PDS/FDRRESTV
+2023-08-06 06:19:01.633014 - Found GZIP.x-dosexec containing application/x-dosexec, moved to PDS/GZIP
+2023-08-06 06:19:01.635138 - Found GZIPFILE.jcl (text/plain) in CBT.V505.FILE659.PDS, moved to PDS/GZIPFILE
+2023-08-06 06:19:01.635147 - Found GZIPXMIT.x-mp4a-latm containing audio/x-mp4a-latm, moved to PDS/GZIPXMIT
+2023-08-06 06:19:01.637275 - Found HERC216.zip (application/zip), trying to unzip
+2023-08-06 06:19:01.637814 - Found HERC216.zip (application/zip), extracting to CBT659/HERC216
+2023-08-06 06:19:01.680881 - Found HERC306.zip (application/zip), trying to unzip
+2023-08-06 06:19:01.681865 - Found HERC306.zip (application/zip), extracting to CBT659/HERC306
+2023-08-06 06:19:01.744545 - Found HERC308W.zip (application/zip), trying to unzip
+2023-08-06 06:19:01.745442 - Found HERC308W.zip (application/zip), extracting to CBT659/HERC308W
+2023-08-06 06:19:01.794081 - Found H312W32.zip (application/zip), trying to unzip
+2023-08-06 06:19:01.794830 - Found H312W32.zip (application/zip), extracting to CBT659/H312W32
+2023-08-06 06:19:01.840168 - Found H312W64.zip (application/zip), trying to unzip
+2023-08-06 06:19:01.840953 - Found H312W64.zip (application/zip), extracting to CBT659/H312W64
+2023-08-06 06:19:01.880450 - Found INITPACK.jcl (text/plain) in CBT.V505.FILE659.PDS, moved to PDS/INITPACK
+2023-08-06 06:19:01.891275 - Found LOADLIB.xmi (application/xmit) in CBT.V505.FILE659.PDS
+2023-08-06 06:19:01.899781   - Received RECFM=U data, stored XMIT file as CBT659/LOADLIB.xmi
+2023-08-06 06:19:01.900719 - Found QUICKINS.txt (text/plain) in CBT.V505.FILE659.PDS, moved to PDS/QUICKINS
+2023-08-06 06:19:01.900729 - Found WINPCAP.x-dosexec containing application/x-dosexec, moved to PDS/WINPCAP
+2023-08-06 06:19:01.903158 - Found XMITFILE.jcl (text/plain) in CBT.V505.FILE659.PDS, moved to PDS/XMITFILE
+2023-08-06 06:19:01.903168 - Found XMITMAN.zip (application/zip), trying to unzip
+2023-08-06 06:19:01.903364 - Found XMITMAN.zip (application/zip), extracting to CBT659/XMITMAN

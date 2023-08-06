@@ -1,0 +1,1441 @@
+<!doctype html public "-//IETF//DTD HTML//EN">
+<HEAD>
+<TITLE>MVS on your PC - The Bare Bones of System Generation
+</TITLE>
+<META NAME="KEYWORDS" CONTENT="BSP Hercules Cygwin Pthreads">
+<META NAME="KEYWORDS" CONTENT="BSP Hercules MVS38J">
+<META NAME="AUTHOR" CONTENT="Volker Bandke">
+</HEAD>
+<BODY BGCOLOR="#FFFFCC">
+<font size=+1>
+<H1 ALIGN=RIGHT><IMG src="bsp_wide.gif" ALT="BSP - Beratung, Schulung, Projekte"></H1>
+<hr>
+<h1>MVS on your PC</h1>
+<h2>The Bare Bones of MVS System Generation under Hercules</h2>
+<p>I have been working as a systems programmer on/with MVS and OS/390 for only 20+ years now,
+therefore, compared to quite a few people around, I am still a youngster (while not a rookie, though).
+It has always be my dream to have MVS running on my own computer, but obviously,
+my boss (aka as SO, aka as wife) would have seriously objected if I had tried to put
+some big blue (or red) hardware into our house.  Imagine my surprise when I learned about
+Hercules some time ago...  The chance to have a mainframe on your PC!
+</p>
+<p>
+But... what is a mainframe without an Operating System.  That is where Rick Fochtman came into the picture.
+He built a CD-Rom with OS/360 (MFT and MVT), and this CD I downloaded from the internet (well, the internet
+_is_ good for some things, once in a while....).  I managed to get MFT and MVT operational on a
+spare computer running Linux, and I was hooked.
+</p>
+<p>
+When finally Hercules was made available for Windows, and the MVS starter system became available,
+I seriously invested some effort into Hercules.  This little document shows you how to create
+a working MVS 3.8 System on your PC, may it be Linux or Windows driven.
+</p>
+<p>
+Please note that I have only Windows/NT, Windows 98,  Suse Linux 7.0 and Red Hat Linux 7.0
+available, and can only
+test my instructions on these two test beds.  If you are running something else, you
+are on your own...  but these instructions should help you nevertheless.
+</p>
+<h2>Save yourself some work</h2>
+<p>
+You can save yourself a whole lot of work by using a pregenerated system.  The easiest way
+is to install the Turnkey MVS system - You insert the CDRom, answer a few questions, and
+off you go into happy MVS land:
+</p>
+<p>
+Insert the CDROM into a CDROM drive, change to the CDROM and enter <code>./setup</code>.  A
+simple shell script will start and display
+<pre>
++===================================================
+!
+! MVS 3.8J System Installation/Generation
+!
+!     1. Install MVS Turnkey system
+!     2. Install MVS Starter system and SYSGEN files
+!
++===================================================
+
+Your choice ===>
+</pre>
+You now select either <code>1</code> if you want to install a ready to run MVS system, or
+you select <code>2</code> if you want to generate your own system.
+If you are running this script under Windows, you will see next:
+<pre>
+This is CYGWIN running under some flavo(u)r of Windows
+Please enter the drive letter of the CDROM drive
+or press enter for default (D)
+</pre>
+You must enter the drive letter of the CDRom drive.  Note that this script does not try to
+autodetect the CDROM drive, it just assumes D as the default drive letter if you don't provide it.
+This prompt will not appear if running under Linux, as Linux doesn't hav ethe concept of drive letters.
+</p>
+<p>The following prompt will also not appear under Linux , but under Windows:
+<pre>
+Please enter the target drive letter, or press enter for default (C)
+</pre>
+Here you determine onto which drive the mvs turnkey system should be installed
+<p>
+The next prompt will be similar for Linux and Windows systems:
+<pre>
+Please enter the target directory, or press enter for default (mvs)
+Note:  The directory will be used relative to the root directory
+       Use a forward slash (/) as a directory indicator
+       Do _NOT_ use a backslash (\)
+       do _NOT_ use a / at the beginning of the path
+</pre>
+With other words, if you just press the enter key, the turnkey MVS system will be installed
+in /mvs on the root directory (linux) or the target drive (Windows)
+<p>
+Remember to use a forward, not a backward slash, even in Windows.  With other word, if you
+want to install into directory <code>mvs</code> under the directory <code>bigfun</code>
+you would now enter
+<pre>
+bigfun/mvs
+</pre>
+<p>
+Another prompt appears.
+<pre>
+Default installation directory will be used: mvs
+Creating directory d:\mvs
+Do you want to copy the pre-installed version of Hercules 2.12m
+for Windows that is on this CD-ROM to your harddisk? (Y/N): [N]
+</pre>
+There is a Hercules version provided on the CDROM.  You might have
+hercules installed already, then you wouldN#t want to use the supplied version.
+If, on the other hand, you don't have hercules installed, or have an older version,
+then you might want to reply
+<pre>
+Y
+</pre>
+to the prompt. On a Windows system, the precompiled version will just be copied
+to a directory onto your hard disk.  On a Linux system, the Hercules Version
+supplied will be compiled, linked, and copied into your /usr/bin directory.
+This may take a couple of minutes....
+<p>
+When hercules is installed (or the installation is skipped) a few more messages are
+displayed, and finally you see
+<pre>
+Setup is now complete
+You can find the mvs installation in directory d:\mvs
+To start MVS, change to that directory and invoke
+
+              startmvs
+
+To start ZZSA, the Stand Alone editor, invoke
+
+              startzzsa
+
+Press the ENTER key to leave the setup program now
+</pre>
+</p>
+<p>
+Change to the directory where you installed mvs, run the <code>startmvs</code>
+script.
+<p>In order to really USE your system, you will need a tn3270 client.
+I did include a windows client, the QWS3270 free client.  This will work
+as a master console, but has serious drawbacks when used in a TSO
+session.
+Not, that you need 2 tn3270 sessions for OS consoles, and 1 to n client
+sessions for TSO sessions.  These must be started before you IPL the system.
+</p>
+<p>
+A standard telnet client is also neded as a safety measure.  In a windows
+environment the client will be automatically started from the hercules.rc
+file in the conf directory.  The telnet client needs to be manually started
+in a linux environment.
+</p><p>
+You can now ipl the system off devive 148 (volume MVSRES)
+</p><p>
+You should read the instructions for building the whole system in order
+to find out which features are available.
+</p>
+<p>
+A Few Highlights:
+<ul>
+<li>Installed TSO User IDs:
+<ol>
+<li>ibmuser - Standard oper/account user for creating user ids</li>
+<li>herc01 - User with oper and account privileges</li>
+<li>herc02 - User with oper and account privileges</li>
+<li>herc03 - User without oper and account privileges</li>
+<li>herc04 - User without oper and account privileges</li>
+</ol>
+</li>
+<li>Installed TSO Comand Processors
+<ol>
+<li>RPF - Rob's Programming Facility</li>
+<li>FSE - Full Screen Editor</li>
+<li>QUE - Queue Processor</li>
+<li>DENQ - Display ENQ conflicts</li>
+<li>DSAT - Displays data set attributes</li>
+<li>DSPACE - Displays free space on volumes</li>
+<li>DSN - Alias of DENQ</li>
+<li>DVOL- displays volumes in the system</li>
+<li>FREEALL - free all dynamically allocated DDNAMES</li>
+<li>HEL - Full Screen HELP command</li>
+<li>REVIEW - Full Screen BROWSE program</li>
+<li>RLSE - Release free space of a file</li>
+</ol>
+</li>
+<li>Installed programming Langiages
+<ol>
+<li>COBOL</li>
+<li>FORTRAN</li>
+<li>PLI</li>
+</ol>
+</li>
+<li>Sort</li>
+</ul>
+<!--
+The full generation process and the generated system is available on the internet.
+The full system is hosted at a site generously provided by Richard Higson at
+<a href=ftp://source.rfc822.org/pub/mirror/hercules/???????????????????????????????>
+?????????????????</a>
+The file size is ???????? bytes
+</p>
+<p>
+A much smaller file, which only contains the necessary ingredients to build an MVS system, is
+available at <a href=XXXXXXXXXXXXXXXXXX>mvsinst.zip</a>
+-->
+</p>
+<h2>Step 1: Getting your stuff together</h2>
+<p>Currently, this distribution is only available on CDROM
+<pre>
++                                installation directory
+!
++------ conf                     configuration and control files
+!
++------ dasd                     pregenerated dasd images
+!
++------ herclin                  directory for Hercules binaries for linux
+!
++------ hercwin                  directory for Hercules binaries for windows
+!
++------ jcl                      contains the SYSGEN Job Control Files
+!
++------ scripts                  command scripts used during installation
+!
++------ snapshot                 Snapshots made during sysgen
+!
++------ standalone               MVS standalone programs
+!
++------ tapes                    Directory for tape files
+!
++------ xmi                      MVS PDS files in xmi format
+</pre>
+<p>
+When you need to run command files, you will find them in the
+"scripts" directory.  The command files for windows have the extension ".CMD", while the
+Linux scripts have now extension at all.
+</p>
+<p>
+If you have a newer version of Hercules (Linux or Windows) feel free to place it
+into the correct subdirectory (hercwin or herclin)
+</p>
+<p><strong>Note that the Hercules version must have support for compressed disks
+and tapes using the bzip compression algorithm included, as all files used
+by this generation are compressed that way</strong>.
+</p>
+<p>
+If in doubt, use the Hercules version provided in this package, it has the necessary
+compression enabled
+</p>
+<p>Now the real fun starts.  You first have to build a starter system.  Don't worry, this is
+really not difficult. Just run the Installation script
+</p>
+<h2>INS0010 - Build Starter System</h2>
+<p>
+This scripts unpacks the starter system form an archive provided in the "snapshot"
+subdirectory.  No error messages are expected from this script.
+<h2>INS0020 - Build DASD Image files</h2>
+<p>The <em>ins0020</em> builds two 3350 disk image files, one
+for the system residence, and one for the DLIB volume.  Be patient, this will take a few moments
+</p><p>
+After the command script has finished, you should find two new files in the <em>dasd</em> directory
+<ul>
+<li>
+mvsres.148_n - the new system residence
+</li>
+<li>
+mvsdlb.248 - the new distribution library volume
+</li>
+</ul>
+In the directory <em>log</em> you will find two files now
+that show you the success (hopefully) of the command file.
+</p>
+<p>
+Note that the mvsres.148_n is not compressed, as opposed to mvsdlb.248.  The compression utility
+only works on devices that do not have alternate tracks specified, while the utility that
+write IPL text requires alternate tracks.  We therefore compress the system residence volume AFTER
+we have placed the IPL text on it.
+</p>
+<h2>INS0030 - Initialise the system residence volume</h3>
+<p>
+Invoking the command script <em>ins0030</em> under Windows will start your telnet client, and then
+the Hercules engine.  Under Linux, only the Hercules engine will be started.
+In order to fire up the telnet client, you need to switch to another linux
+session and invoke the <em>starttelnet</em> script (which starts the telnet client).
+</p>
+<p>
+Make sure that your telnet client connects to port 3270 on the machine where
+Hercules is running.  If this the same machine as where the telnet client will be
+acivated, you can use the following command line:
+<pre>
+telnet localhost 3270
+</pre>
+</p>
+<p>
+Once the Hercules engine is started, and the telnet client has connected to it, you can now
+IPL the stand alone init utility.  On the Hercules console you enter
+<pre>
+ipl 00a
+</pre>
+or, on the semi-graphical console that you reach by pressing the ESC key you enter
+<pre>
+l b
+</pre>
+After a short while the system should enter
+an enabled wait.  Switch over to the telnet console and press the >enter< key once
+You will see something like:
+<pre>
+IBC105A  DEFINE INPUT DEVICE. DASDI  7.92
+HHC901I Enter input for console device 0009
+</pre>
+to which you answer (by typing at the telnet console):
+<pre>
+input=1442,00c
+</pre>
+and again pressing the >enter< key once.  The telnet console should now show:
+<pre>
+MVSRES JOB   'INITIALIZE 3350 MVSRES VOLUME'
+       MSG   TODEV=1052,TOADDR=009
+       DADEF TODEV=3350,TOADDR=148,IPL=NO,VOLID=MVSRES,BYPASS=YES
+       VLD   NEWVOLID=MVSRES,OWNERID=HERCULES
+       VTOCD STRTADR=1,EXTENT=29
+       END
+</pre>
+Be patient, the system is now initializing the disk pack, and that will take
+a few minutes.  When you see the message
+<pre>
+IBC163A  END OF JOB.
+IBC202A INTERV. REQUIRED  00C 02 0E00   4000 0000  0000
+
+IBC154A  READY READER 00C.  DEPRESS INTERRUPT KEY.
+</pre>
+then the disk is initialized, and you can now terminate the Hercules engine and the
+telnet client
+</p>
+<h2>INS0040 - Write IPL Text to MVSRES</h2>
+<p>
+Invoking the command script <em>ins0040</em> will now (again) start the Hercules
+emulator, but with a different configuration file.  This time, after the telnet client has connected,
+you will want to start the MVS starter system
+by entering
+<pre>
+ipl 150
+</pre>
+<strong>on the Hercules console!!</strong>.  After a few seconds, the <strong>
+telnet session</strong> should show
+<pre>
+IEA101A SPECIFY SYSTEM PARAMETERS FOR RELEASE 03.70.VS2
+HHC901I Enter input for console device 001F
+</pre>
+Now you enter
+<pre>
+r 00,clpa
+</pre>
+because this is the first IPL of the starter system.  If you start the system
+at some later time, you can just press the >enter< key as a CLPA is not generally required
+then
+</p>
+<p>
+After about a minute or two you should see
+<pre>
+ IEF165I // START JES2
+ IEE351I SMF SYS1.MAN RECORDING NOT BEING USED
+*00 $HASP426 SPECIFY OPTIONS - HASP-II, VERSION JES2 4.0
+</pre>
+To which you reply
+<pre>
+r 00,format,noreq
+</pre>
+Again, this is only required because this is the first time that JES2 gets
+started, and the spool dataset SYS1.HASPACE needs to be formatted.  If you
+start the system later, you would enter
+<pre>r 00,,noreq</pre>
+Back to our IPL, though.
+A message will now be displayed
+<pre>
+*01 $HASP436 REPLY Y OR N TO CONFIRM CHECKPOINT RECORD CHANGE
+</pre>
+to which your reply is
+<pre>
+r 01,y
+</pre>
+Again, you need to be patient, JES2 is now formatting the SPOOL0 volume.
+When everything has been formatted, you will see
+<pre>
+ IEE041I THE SYSTEM LOG IS NOW ACTIVE
+ $HASP100 INIT     ON STCINRDR
+ $HASP100 INIT     ON STCINRDR
+ $HASP100 INIT     ON STCINRDR
+ $HASP373 INIT     STARTED
+ $HASP309    INIT  1 INACTIVE ******** C=A
+ $HASP309    INIT  2 INACTIVE ******** C=BA
+ $HASP309    INIT  3 INACTIVE ******** C=CBA
+ $HASP373 INIT     STARTED
+ $HASP373 INIT     STARTED
+ $HASP099 ALL AVAILABLE FUNCTIONS COMPLETE
+</pre>
+Also, Hercules will now feed a job with jobname sg0000 to the started JES.
+<p>
+You should now enter the following JES commands
+<pre>
+$SPRT1
+$SPUNCH1
+</pre>
+to enable printing/punching of job output.
+</p>
+<p>After the job <em>sg0000</em> has completed,
+you will find the output in the prt subdirectory with the name sg0000.lst
+<h2>Running Sysgen Jobs</h2>
+<p>The JCL to be run for the system generation are in the <em>jcl</em>
+subdirectory.  To submit a job, you have two possibilities:
+<ol>
+<li>devinit 012 ../jcl/sg0000 eof<br>on the Hercules console</li>
+<li>n b ../jcl/sg0000 eof<br>on the semi-graphical Hercules console</li>
+</ol>
+</p>
+<p>Sometimes it is nice to see the JES2 assigned job numbers when diplaying
+MVS information via operator commands.  You can achieve this by entering
+<pre>
+$T OSC1,D=J
+</pre>If you would also like to see a timestamp on every message, then enter
+<pre>
+$T OSC1,D=T
+</pre>instead
+<p>You might also consider to issue the MVS command
+<pre>
+mn jobnames,t
+</pre>
+which tells MVS to monitor and report on start and end of jobs.
+</p>
+<p>All jobs that need to be run on the starter system have names beginning with
+<em>sg</em> followed by a number.  Other jobs in the <em>jcl</em> directory will be
+run from the generated MVS system later
+</p>
+<h3>SG0010 - Prepare for Sysgen</h3>
+<p>
+The SMP4 that is distributed with MVS is unfortunately unfit for system generation!!
+Fortunately, a replacement is available.  This job will copy it from a work file
+into the starter system's SYS1.LINKLIB.
+After this job is run, an IPL is required.
+</p>
+<h3>IPL - Pick up the new SMP4</h3>
+<p>
+As already mentioned an IPL is now required.  No, don't press ctrl-alt-del yet!
+At the telnet screen enter the commands
+<pre>
+$p
+$pjes2
+z eod
+</pre>Then, at the Hercules console, enter
+<pre>
+stop
+</pre>
+<p>
+We could now do an IPL.  But, this time, we actually want to leave Hercules
+altogether, as we can now take the opportunity to compress the system residence.
+Leave Hercules by entering the command >exit< on the Hercules console, or by using the
+>W< command on the graphical Hercules console
+</p>
+<p>
+Once Hercules is terminated, you will now have to run
+</p>
+<h3>INS0050 - Compress MVSRES</h3>
+<p>The script <em>ins0050</em> will compress the mvsres system residence volume, but, just
+in case, will also place a backup copy of the uncompressed file into the snapshot subdirectory.
+The compressed file will have the name mvsres.148, and the archive with the uncompressed file
+will have the name <em>mvsres_148_not_compressed.tgz</em>.
+<h3>STARTSTARTER or INS0060 - Start the Starter System</h3>
+<p>The script file <em>ins0060</em> has a twin, called <em>startstarter</em> (easier to remember).
+It can be used to start the MVS starter system.  Remember that you will have to start a telnet
+client on port 3270 (using, on Linux, the <em>tn</em> script or the <em>starttelnet</em> script)
+</p>
+<h3>SG0020 - Create Master Catalog</h3>
+<p>The MVS system to be generated needs a mastercatalog.  We will place it on the
+system residence, and connect it to the starter system as a user catalog.
+Just run job <em>sg0020</em> and see what happens...
+</p>
+<h3>SG0030 - Allocate DLIB files</h3>
+<p>
+The DLIB (=Distribution LIBrary files) contain the building parts out of which
+the target system (the MVS to be generated) will be built.  We allocate empty
+DLIB files using job <em>sg0030</em>.  Later, these files will be filled via SMP4.
+Therefore we need to initialize the SMP environment as well.  If you run this job
+for the first time, expect an RC of 8 in the last step (SMP), if you repeat the job
+(for example, because you want to start all over), then this job should get a
+RC of 0
+</p>
+<h3>SG0040 - Receive product tape</h3>
+<p>
+Now we have to feed the product tape to SMP, which will unload the parts from
+the distribution tape and place it into temporary libraries on the MVSRES volume.
+(That is the volume that we specified on the TLIB parameter of the SMP4
+procedure in job SG0010).
+</p>
+<p>The distribution tape is in the file zdlib1.het, and you load the tape drive
+by entering
+<pre>
+devinit 170 <em>pathname</em>/zdlib1.het
+</pre>where <em>pathname</em> is the path to the directory containing the
+tape file.  If you kept the the file in the tapes subdirectory (i.e. where
+the installation had placed it), the command would be
+<pre>
+devinit 170 ../tapes/zdlib1.het
+</pre>
+Now submit job <em>sg0040</em>.
+Be patient, this job has a lot to do, and it
+takes quite some time to complete!
+</p>
+<p>Okay, so the long wait is over.  What are we going to do now?  Well, it is
+time for a snapshot.
+<h3>INS0070 - Write Snapshot # 1</h3>
+<p>
+You have invested quite a big amount of time and effort so far.  Wouldn't it be
+a shame to loose it all, just because, like, by accident you reran command file ins0010?
+Better safe than sorry, thus let us create a backup.
+</p><p>
+First shut down MVS and end the Hercules engine.  Then invoke command file
+<em>ins0070</em> which will use TAR and gzip to create several files in
+the directory <em>snapshot</em>.
+</p><p>
+A volume can be recovered from a snapshot using command script <em>restsnapvol</em>.
+The syntax is
+<pre>
+       restsnapvol {snapshot} {volume}
+                   !          !
+                   !          +--- volume of disk to restore
+                   +-------------- snapshot number (01, 02, etc)
+
+
+Example:  restsnapvol 01 mvsres
+
+to restore volume MVSRES from snapshot # 1
+</pre>
+</p><p>
+A complete snapshot can be restored command script <em>restsnap</em>.
+The syntax is
+<pre>
+       restsnap {snapshot}
+                !
+                +-------------- snapshot number (01, 02, etc)
+
+Example:  restsnap 01
+
+to restore the complete snapshot # 1
+</pre>
+After the snapshot is complete, you can now restart Hercules, the telnet client, and MVS
+</p>
+<h3>SG0050 - Receive product maintenance</h3>
+<p>
+No software product is without bugs.  This is (especally) true for MVS.  In the course
+of time fixpacks etc have been developed.  IBM call the fixes PTFs.  Ever wondered,
+what PTF stands for?  Well, PTF = Program Temporary Fix <sic>.  This tells you alot
+about software maintence, doesn't it?
+</p>
+<p>Okay, some of the fixes are available to us.  A Tape with accumulated PTFS is
+available, with the name of CUM003.  Submit the jog <em>sg0060</em>, and a mount message
+will promptly appear on the MVS console.
+If you placed the AWS file into the tapes
+subdirectory (as recommended), you can now load the tape drive from
+the Hercules console by entering
+<pre>
+devinit 170 ../tapes/cum003.het
+</pre>
+<p>The maintence on the tape will now be
+received.  But wait - the job doesn't end, it asks for another tape via a
+mount message.
+What do you do now?  Very simple: On the Hercules (Hercules, not MVS) console
+enter
+<pre>
+devinit 170 ../tapes/uz61013.het
+</pre>
+Soon, there will be a new mount message, to which you reply
+<pre>
+devinit 170 ../tapes/uz71613.het
+</pre>
+There will be a last mount message, and you supply
+<pre>
+devinit 170 ../tapes/mvsptf1.het
+</pre>
+All the maintenance currently available is now placed into the SMP environment.
+</p>
+<p>Note that this job will have a return code of 8, as some PTFs appear
+twice, and SMP will record this as an error.
+</p>
+<h3>SG0060 - Receiving more Maintenance</h3>
+<p>On the MVSDLB volume there is a file called SYS2.SMPPTS which contains
+maintenance form a similar system, but from some time later.
+We will RECEIVE this maintenance in job <em>sg0060</em> to have those PTFs available
+should we ever need them. A return code of 0 is expected for this job.
+</p>
+<h3>SG0070 - Install BTAM</h3>
+<p>For some compelling, SMP related reason it is necessary to install one
+specific product before all the others.  Install in this moment means:  Load the
+information from the SMPPTS and the SMPTLIBS (where they have been placed
+by the RECEIVE commands in SG0050-SG0080) onto the DLIB files on MVSRES.
+</p><p>This will be done using the ACCEPT command of SMP. Usually, though, a
+SYSMOD will not be ACCEPed right away, but needs to be put into the Target
+Sytem for testing first, which would be done via an APPLY command.  But we
+do not have a target system in the moment.  Therefore the parameter <em>NOAPPLY</em>
+on the ACCEPT command is required to tell SMP that the FMID should be ACCEPTed
+even though it has not yet been APPLYed.
+</p><p>If you don't want your SMP jobs to run forever, use <strong>DIS(WRITE)</strong>
+as an additional option on the ACCEPT command.  This keeps the directory of
+the highly used PDS SYS1.SMPACDS in memory, instead of incurring gazillions of
+disk I/O operations.  If things go wrong, though, your SMPACDS might be
+seriously broken...  Guess why we did a Snapshot in the previous step!
+</p>
+<h3>SG0080 - Install BCP</h3>
+<p>
+The next job will install the BCP (=Base Control Program) plus a lot of related
+FMIDs (Functions) needed by MVS.  This is a rather big job, and on my system
+(500 MHz, 256MB) it took about 3hours 20 minutes.  Thus, have a break, watch the blinkenlights, and be patient
+</p>
+<p>
+I also ran the same job under Linux on a 150MHz, 80MB Thinkpad.  It was not exactly fast.....
+</p>
+<h3>INS0080 - Another Snapshot</h3>
+<p>
+After such a massive change to our system it might be a good idea to take another
+Snapshot.    Just run command script <em>ins0080</em>, which puts new files into the
+<em>snapshot</em> directory.  Don't throw away the previous snapshot files - you never know....
+</p>
+<h3>SG0090 - Install Networking</h3>
+<p>
+So far, everything has been rather straight forward.  Now, we come to a
+difficult spot.
+Some of the FMIDs to be installed now may
+refuse to be installed, because a few
+IFREQ PTFS may be missing.
+This can be healed by also ACCEPTing UY49086, but this
+(at least on my system) breaks SVC94 (which is used for GTSIZE et al) and makes
+part of TSO (like TEST) unuseable.  I do not know which PTF fixes UY49086, don't
+have the means to find out, and (probably) don't have the fixing PTF either.
+UY49086 also modifies SYSGEN for TCAM incorrectly (it will introduce
+a global variable &SGDTCAM that is referenced nowhere else).  Instead of
+supplying the faulty PTF I leave it off altogether by specifiend BYPASS(IFREQ).
+If you prefer you can add UY49086 to the list of SYSMODS instead (and live with the
+consequences)
+</p>
+<h3>SG0100 - Install processor support</h3>
+<p>
+This one is really hairy.  There are about 29 missing PRE or IFREQ
+SYSMODS, and there is nothing we can do about it right now.  We will
+install the processor support group with BYPASS(IFREQ,ID) option to
+get a somewhat clean install.  Expect a return code of 4 because of the
+BYPASS option.
+</p>
+<h3>SG0110 - Install JES2</h3>
+<p>
+The Job entry subsystem is straight forward in terms of installation.  Just run
+job <em>sg0110</em> and expect a return code of 0.
+</p>
+<h3>INS0090 - Time for Snapshot #3</h3>
+<p>
+We have completed the first phase of the sysgen process, the DLIB disk is now loaded.
+This is a perfect time for another snapshot.  With other words, shut down MVS and
+the Hercules engine, and then run command script <em>ins0090</em>
+</p>
+</p>
+<h3>SG0120 - Cleaning the house</h3>
+<p>
+The DLIBs are loaded, and we need room on the disk packs for the target libraries.
+We use SMP/4 to do some of the cleanup for us.  If you run job <em>sg0120</em> this will
+REJECT all the function SYSMODs.  For ACCEPTed function SYSMODS this means that the
+SMPTLIB files (which were allocated on MVSRES) will be removed.  Also, this job
+will run IEHPROGM with the SCRATCH VTOC function to remove all non-VSAM files
+from the MVSRES volume.  You shold expect a return code of 4 for the first step, as the rejected
+function SYSMOD have not been APPLYed.  There is a second step which cleans the MVSRES
+pack via a SCRATCH VTOC operation. You will get a RC=8 for this step, which is okay.
+</p>
+<h3>SG0130 - Allocate SYSGEN files</h3>
+<p>
+The SYSGEN process needs some datasets, which will be allocated in the job
+<em>sg0130</em>.  Also, a new jobcard macro will be placed in SYS1.AGENLIB
+which includes a JOBCAT DD statement.  This Job should end with an RC of 0.
+</p>
+<h3>SG0140 - Rebuild IFOX00</h3>
+<p>
+Sometimes the assembler provided by the starter system has the hiccups and
+randomly abends with S0C1 or S0C4.  We have all the parts to build a new
+assembler, and that is exactly what <em>SG0140</em> is doing.
+After this job has completed successfully (we expect RC=0) then <strong>you must shutdown MVS and Hercules</strong>!
+If you forget this, various abends (like S106-0E)
+may occurr.
+</p>
+<h3>INS0100 - Build Page Volumes</h3>
+<p>
+We will use two dedicated page volumes (3340) for our target system.
+Shutdown MVS and the Hercules engine.  When Hercules has terminated,
+run command script <em>ins0100</em>, and two disk files (page00.160 and page01.161)
+will be added to your dasd subdirectory.  Also two lines will be added to
+the end of the <em>starter.conf</em> configuration file
+</p>
+<p>
+After this command script has completed, you
+should start Hercules and then IPL MVS again.
+</p>
+<h3>SG0150 - Sysgen, Stage 1</h3>
+<p>
+Finally! There are quite a few comments in the stage1 assembly deck, and
+I would recommend that you take a look at the deck before running job
+<em>sg0150</em>.  A return code of 0 is expected, everything else is bad
+and needs to be investigated.
+</p>
+<p>The IO Configuration can be viewed by clicking on one of the following links:
+<ul>
+<li><a href=ioconfig1.html>Master Consoles</a></li>
+<li><a href=ioconfig2.html>Terminals</a></li>
+<li><a href=ioconfig3.html>Tapes</a></li>
+<li><a href=ioconfig4.html>Unit record devices</a></li>
+<li><a href=ioconfig5.html>Disk devices</a></li>
+</ul>
+<h3>SG0160 - Get Stage1 output</h3>
+<p>
+The stage 1 of the previous job step has placed a large JCL stream into file SYS1.STAGE1.OUTPUT.
+Now go to the Hercules console and enter
+<pre>
+devinit 13 ../jcl/stage2.pch ascii
+</pre>
+before you run the job <em>sg0160</em>.  This will place the JCL stream into file
+stage2.pch in the JCL subdirectory.  Don't try to do something with this file, just run
+the command script
+</p>
+<h3>INS0110 - Build Stage2 Jobstream</h3>
+<p>
+Some modifications need to be done before the stage2 jobs can run.  The easiest way
+to do this is running the script <em>ins0110</em> which does the changes for you.
+If you want to see which changes are being done, take a look at conf/stage1.sed
+</p>
+<h3>SG0170 - remove target Libs</h3>
+<p>
+Sometimes, you need to start a sysgen stage2 process all over again.  Then you might
+want to delete the target libraries, first.  This is accomplished by jobs
+<em>sg0170</em> for the full sysgen, and jobs
+<em>sg0170_x</em> (1 <= x <= 5) for sysgen jobs SYSGENx.
+Remember, you only need these jobs when restarting
+(a part of)
+sysgen process!!
+</p>
+<p>The script <em>ins0110</em>has created the jobstream</p>
+<h3>SG0180 - Stage2</h3>
+<p>
+The real Stage 2.  It is a sequence of 6 jobs to build the various MVS target
+libraries. </p><p>
+Note: The stage1 macros specify class C as the jobclass where
+the sysgen jobs are to run.  The starter system has
+3 started initiators, where only one has class C.  This
+assures that the jobs run consecutively, not parallel
+</p>
+<p>
+at the Hercules console enter the following command:
+<pre>
+devinit 012 ../jcl/sg0210 trunc eof
+</pre>
+(don't forget the <em>trunc</em>).  Then take a break, because it will take some time
+to run the sysgen jobs.
+</p>
+<h3>SG0190 - Build JES2</h3>
+<p>
+Now everything is in place, nearly.  We still have to build a JES system, but that is
+quite simple.  Run the job <em>sg0190</em>, which Links JES2, sets up a JES2 procedure,
+and loads some simple JES2PARMS.
+</p>
+<p>
+The job will also allocate a (rather small) spool dataset on MVSDLB.  We will later expand
+the system by dedicating the better part of a full volume to the spool, but we will wait until we are
+certain that our generated system will start successfully.
+<h3>SG0200 - Update SYS1.PARMLIB</h3>
+<p>
+A few changes are needed to SYS1.PARMLIB members.  These changes will add SYS1.CMDLIB
+to LNKLST00, select a different IEAPAK00, etc.  Run job <em>sg0200</em> to implement
+the changes.   After this job has completed, shutdown MVS and the Hercules engine.
+</p>
+<h3>INS0120 - Write Snapshot # 4</h4>
+<p>The actual System Generation is done (even though we need to do some customizing, still),
+and we should now do another snapshot (by running script <em>ins0120</em>.
+
+<h3>STARTMVS or INS0130 - Start the new MVS</h3>
+Edit the script <em>startmvs</em> or its twin <em>ins0130</em>
+to start the 3270 client you want to use.  You will at least
+need 3 sessions, 2 for console support, 1 for TSO.
+You will also need one telnet client.  You should not IPL MVS until these clients have
+connected to Hercules
+</p>
+<p>
+This is the first time MVS 3.8 is ipled, therefore an MVS CLPA is required, and later
+a spool formatting JES2 start.
+<p>During IPL with CLPA you will see the following messages:
+<pre>
+| IEA101A SPECIFY SYSTEM PARAMETERS FOR RELEASE 03.8 .VS2
+| r 00,clpa
+| IEA357I ERRORS IN IEAPAK00 LIST
+| IEA357I IGC0J05B INVALID - MODULE IGNORED
+| IEA357I IGG08101 INVALID - MODULE IGNORED
+| IEA357I IGG08102 INVALID - MODULE IGNORED
+| IEA357I IGG08103 INVALID - MODULE IGNORED
+| IEA357I IGG08104 INVALID - MODULE IGNORED
+| IEA357I IGC11110 INVALID - MODULE IGNORED
+| IEA357I IGC12110 INVALID - MODULE IGNORED
+</pre>
+These are no errors, just information, and you can safely ignore them.
+After MVS is started there are three printers in the
+the system, at addresses 00E, 00F, and 30E.  30E is generarted as a hardcopy device
+while 00E and 00F are standard printers.
+</p><p>
+Issue the JES2 command
+<pre>
+$T prt2,Q=Z
+</pre>
+to make the second printer serve the output queue Z.  This might be handy sometimes later.
+</p>
+<p>
+At some time during startup you will see a message similar to
+<pre>
+*$HASP190 DUMMY    SETUP -- PRINTER1 -- F = STD. -- C = 6    -- T = 0
+</pre>
+When this setup message appears, you must start the corresponding printer, in this case by entering
+<pre>
+$S PRINTER1
+</pre>
+</p>
+<p>
+Having fun with your MVS?  Well, we have some more work to do!
+</p>
+<p>
+<center><font size=+2>MVS SYSGEN is Complete</font></center>
+</p>
+<h1>Customization</h1>
+<p>The basic system generation is complete, but we are no ways done yet.  There are a
+lot of things left to do until the system is useable, like adding disk space,
+making TSO available, installing an editor and other utilities, etc.
+</p>
+<h2>Adding additional Volumes</h2>
+<p>The current system is a two volume system, where there is not much free space left for expansion.
+One of the consequences is that our spool dataset will fill up fairly quickly.  Also, we will
+want to have work files, permanent storage for TSO users, Sort work areas, etc.  With other
+words, we will need more disk space.  Fortunately, this is not very complicated.
+</p>
+<h3>MVS0010 - Add VATLST00 to SYS1.PARMLIB</h3>
+<p>VAT stands for Volume Attribute List and allows automatic mounting of new
+disk volumes.  We will create new disk volumes soon, therefore you should already run
+job <em>mvs0010</em> to place a new VATLST00 into your SYS1.PARMLIB library.
+</p>
+<p>
+Shut down MVS and the Hercules engine now.  Then run
+<h3>INS0140 - Build DASD Files</h3>
+<p>This script will build quite a few DASD image files in your ../dasd subdirectory. When
+it is complete, you will find the following
+<ul>
+<li>spool0.150 - 3330 - Spool Volume</li>
+<li>work00.140 - 3350 - Scratch volume</li>
+<li>work01.141 - 3350 - Scratch volume</li>
+<li>pub000.240 - 3350 - TSO volume</li>
+<li>pub001.241 - 3350 - TSO Volume</li>
+<li>sort00.130 - 2314 - Sort volume</li>
+<li>sort01.131 - 2314 - Sort volume</li>
+<li>sort02.132 - 2314 - Sort volume</li>
+<li>sort03.133 - 2314 - Sort volume</li>
+<li>sort04.134 - 2314 - Sort volume</li>
+<li>sort05.135 - 2314 - Sort volume</li>
+</ul>
+</p>
+<p>The script will also update the MVS.CONF file used for Hercules startup, such that the newly
+created disk files can be accessed by MVS.
+</p>
+<p>
+Now you should start Hercules again, and then MVS.  After MVS has completely initialzed,
+and JES2 was started, enter the MVS command
+<pre>
+D U,DASD,ONLINE
+</pre>
+on the MVS master console.  You should get a result similar to this:
+<pre>
+ d u,dasd,online
+ IEE450I 16.17.17 UNIT STATUS 086                             C
+ UNIT TYPE STATUS  VOLSER VOLSTATE   UNIT TYPE STATUS  VOLSER VOLSTATE
+ 130  2314 O       SORT00  PUB/RSDNT 131  2314 O       SORT01  PUB/RSDNT
+ 132  2314 O       SORT02  PUB/RSDNT 133  2314 O       SORT03  PUB/RSDNT
+ 134  2314 O       SORT04  PUB/RSDNT 135  2314 O       SORT05  PUB/RSDNT
+ 140  3350 O       WORK00  PUB/RSDNT 141  3350 O       WORK01  PUB/RSDNT
+ 148  3350 S       MVSRES PRIV/RSDNT 150  3330 O       SPOOL0  PUB/RSERV
+ 160  3340 A       PAGE00 PRIV/RSDNT 161  3340 A       PAGE01 PRIV/RSDNT
+ 240  3350 O       PUB000 STRG/RSDNT 241  3350 O       PUB001 STRG/RSDNT
+ 248  3350 A       MVSDLB PRIV/RSDNT
+</pre>
+which sjows you the accessible volumes and their mount attributes.
+</p>
+<p>
+We will make immediate use of the new volumes.  Let us first make a
+dedicated Spool pack:
+</p>
+<h3>MVS0020 - Build a Spool Volume</h3>
+<p>
+The spool space on MVSDLB is very small, and we would run into problems if
+we wanted to use it in "real" work.  This is where <em>mvs0020</em> will help you - When this
+job is run, it will
+<ul>
+<li>Build a new spool on SPOOL0 volume</li>
+<li>Saves current JES2PARM member</li>
+<li>Build more sophisticated JES2PARM member in SYS1.PARMLIB</li>
+</ul>
+When the job has completed, you need to stop JES2, and then restart it with the FORMAT option.
+you will see the following messages:
+<pre>
+      STC    7  $HASP100 NET      ON STCINRDR
+      STC    7  IEF452I NET      JOB NOT RUN - JCL ERROR
+    - STC    7  $HASP396 NET      TERMINATED
+      STC    7  $HASP150 NET      ON PRINTER2         7 LINES
+     *STC    7 *$HASP190 NET      SETUP -- PRINTER2 -- F = 0001 -- C = 6    --
+     * T = QN
+      STC    8  $HASP100 TSO      ON STCINRDR
+      STC    8  IEF452I TSO      JOB NOT RUN - JCL ERROR
+    - STC    8  $HASP396 TSO      TERMINATED
+</pre>
+Don't worry, there is nothing wrong with your system.  There are commands to start
+VTAM and TSO, but we haven't actually setup those two components yet (but will do so shortly)
+</p>
+<p>Which changes were implemented to JES2PARMS?  You might want to look at the member in
+SYS1.PARMLIB.  The main changes are:
+<ul>
+<li>Printer1 serves output class A</li>
+<li>Printer2 serves output class Z</li>
+<li>A is standard output class for printing</li>
+<li>B is standard output class for punching</li>
+<li>L is standard output class for syslog</li>
+<li>Z is standard output class for TSU and STC</li>
+<li>0 is dummy output class</li>
+<li>all other classes are held</li>
+</ul>
+<h3>MVS0030 - Remove spool from MVSDLB</h3>
+<p>The new spool is working, we now can remove the spool space from MSDLB.  This is done
+by running job <em>mvs0030</em>.  We are now ready to build VTAM and TSO:
+</p>
+<h2>VTAM and TSO</h2>
+<h3>MVS0040 - Allocate files</h3>
+<p>
+Just run this job.  When it is completed, some new files have been created, and some members
+the SYS1.PARMLIB have been updated.  The following files were created:
+<ul>
+<li>SYS2.LINKLIB - Secondary linklist library, batch</li>
+<li>SYS2.CMDLIB - Secondary linklist library, TSO</li>
+<li>SYS2.HELP - Secondary help library, TSO</li>
+<li>SYS1.CMDPRC - System library for CLISTs</li>
+<li>SYS2.PROCLIB - Secondary procedure library</li>
+</ul>
+The JES2 proc has been amended to reflect the new proclib, and the LNKLST00 has been
+updated to contain CMDLIBs and SYS2.LINKLIB.
+</p>
+<p>
+Following procedures have been added to SYS2.PROCLIB:
+<ul>
+<li>COMPRESS - Compress a PDS</li>
+<li>CLEARERP - Clear SYS1.LOGREC</li>
+<li>CLEARDMP - Clear a dump dataset</li>
+<li>CLEARSMF - Clear an SMF file</li>
+<li>DUMPSMF  - Dump an SMF file</li>
+</ul>
+You need now to re-Ipl MVS.  The CLPA option is not required.
+</p>
+<h3>MVS0050 - Build VTAM and TSO Libraries and Procs</h3>
+<p>
+A straight forward affair.  Just run this job, and it will create Libraries and LOGON procedures
+for you:
+<ul>
+<li>Libraries
+<ul>
+<li>SYS1.VTAMSRC - Contains assembly source for VTAM tables</li>
+<li>SYS1.VTAMLST - VTAM control files</li>
+<li>SYS1.VTAMOBJ - Compiled members from SYS1.VTAMLST</li>
+</ul>
+</li>
+<li>Logon procedures
+<ul>
+<li>TSOLOGON - Standard LOGON Procedure for all users</li>
+<li>IKJACCNT - Emergency LOGON Procedure for IBMUSER</li>
+</ul>
+</li>
+</ul>
+The LOGON Interpret Table BSPLIN01 contains references to the users IBMUSER, HERC01, and HERC02.
+You will just have to enter these names to LOGON to TSO.  Other TSO users will have to
+use the LOGON command, i-e they will have to enter
+<pre>
+logon someone
+</pre>
+to logon to TSO using the userid "someone"
+</p>
+<h3>MVS0060 - Assemble VTAM Tables</h3>
+<p>
+which will assemble Logon Interpret Table, Logmode Table, and USSTAB.
+After this is done, you will want to
+</p>
+<h3>Start VTAM</h3>
+<p>
+Go to the MVS console, and enter
+<pre>
+s net
+</pre>
+You should see messages similar to the following:
+<pre>
+    - STC   19  $HASP373 NET      STARTED
+    - STC   19  IEF403I NET - STARTED - TIME=17.44.23
+      STC   19  IST025I  BLDL FAILED FOR ISTYTCM1 IN VTAMLIB
+      STC   19  IST126I  ISTYTCM1 MODE NOT SUPPORTED DUE TO LOADING FAILURE
+      STC   19  IST025I  BLDL FAILED FOR ISTYTCM2 IN VTAMLIB
+      STC   19  IST126I  ISTYTCM2 MODE NOT SUPPORTED DUE TO LOADING FAILURE
+      STC   19  IST025I  BLDL FAILED FOR ISTYTCM3 IN VTAMLIB
+      STC   19  IST126I  ISTYTCM3 MODE NOT SUPPORTED DUE TO LOADING FAILURE
+      STC   19  IST110I  NETWORK SOLICITOR STARTED
+      STC   19  IST093I  APPLTSO  ACTIVE
+      STC   19  IST093I  APPLCICS ACTIVE
+  00  STC   19  IST093I  LCLMAJ00 ACTIVE
+      STC   19  IST020I  VTAM INITIALIZATION COMPLETE
+</pre>
+The ISTYTCMx modules belong to TCAM, which we have not generated, and can be ignored.
+When VTAM is initialized, enter
+<pre>
+s tso
+</pre>
+to which the system should reply
+<pre>
+    -           s tso
+      STC   20  $HASP100 TSO      ON STCINRDR
+    - STC   20  $HASP373 TSO      STARTED
+    - STC   20  IEF403I TSO - STARTED - TIME=17.46.08
+  00- STC   20  IKT007I TCAS ACCEPTING LOGONS
+    - STC   20  IKT005I TCAS IS INITIALIZED
+</pre>
+After the message TCAS IS ACCEPTING LOGONS appears, you can now
+logon using the IBM supplied userid IBMUSER.  How?  Go to a 3270 session that displays
+<pre>
+
+
+THIS TERMINAL IS LOGGED ON TO THE NETWORK SOLICITOR
+
+</pre>
+and in the top row enter
+<pre>
+ibmuser size(4096)
+</pre>
+Note: The default size for IBMUSER is 44K, which is enough for running ACCOUNT, but not for running anything
+else.  If logon worked, just enter LOGOFF again.  We are going to create new TSO users in a minute
+</p>
+<h3>MVS0070 - Build Usercat for TSO Users</h3>
+<p>
+We do not want all the files for specific TSO users to be cataloged in the MVS master
+catalog.  Therefore we build a usercat on volume PUB000 for all the TSO related files.
+Run job <em>mvs0070</em>
+<h3>MVS0080 - Build Control Datasets etc</h3>
+<p>We need a file containing skeleton for commands to make certain tasks (like creating users) easier.
+Job <em>mvs0080</em> builds two files for use in a TSO environment:
+<ul>
+<li>SYS2.HELP - Secondary help file</li>
+<li>SYS1.SYSINLIB - PDS containing control card skeletons</li>
+<ul>
+<li>ADDUSER - CLIST statements to add standard TSO user</li>
+<li>ADDSYSP - CLIST statements to add sysprog type TSO user</li>
+</ul>
+</ul>
+The skeletons in above dataset assembler PUNCH statements with references
+to the assembler SYSPARM variable.  You can see in the next job how this is being used.
+The Job will also place two command lists into SYS1.PROCLIB:
+<ul>
+<li>STDLOGON - Standard LOGON CLIST used unless overridden by private CLIST
+<li>USRLOGON - Invoked via LOGON procedure TSOLOGON
+<ul>
+<li>Invokes private &SYSUID..CMDPROC(STDLOGON) if it exists
+<li>Invokes public STDLOGON (see above) if no private CLIST exists
+</ul>
+</ul>
+<h3>MVS0090 - Add TSO Users</h3>
+<p>You might want to modify <em>mvs0090</em> before running it to suit your needs.  AS
+written it will add four users to the system</p>
+<ul>
+<li>herc01 - SYSPROG userid, no password</li>
+<li>herc02 - SYSPROG userid, no password</li>
+<li>herc03 - standard userid, no password</li>
+<li>herc04 - standard userid, no password</li>
+</ul>
+Your userids are now defined, and ready to use.
+</p>
+<h3>Shutting down for Snapshot # 5</h3>
+<p>It is time for another snapshot.  We need to shutdown MVS again, but this time we first have to stop
+tso and net.
+</p><p>
+At the MVS console enter the command
+<pre>
+p tso
+</pre>
+if there are still users active, you will see a message like
+<pre>
+  00-           p tso
+     *STC   22 *03 IKT010D 00001 USERS ACTIVE, REPLY 'SIC' OR 'FSTOP'
+</pre>
+to which you reply
+<pre>
+r xx,FSTOP
+</pre>
+if there are no (more) active users, you will see the message
+<pre>
+    *STC   22 *04 IKT012D TCAS TERMINATION IN PROGRESS - SPECIFY 'U' OR 'DUMP'
+</pre>
+to which you need to reply
+<pre>
+r xx,u
+</pre>
+TSO will now terminate.  You can now terminate VTAM with one out the the following three commands
+<pre>
+z net
+z net,quick
+z net,cancel
+</pre>
+Eventually, you will see the message
+<pre>
+      STC   21  IST102I  VTAM IS NOW INACTIVE
+    - STC   21  IEC223I IFG0200V,NET,NET,UNKNOWN
+  00- STC   21  $HASP395 NET      ENDED
+</pre>
+and now you can terminate JES in the usual way
+<pre>
+$P
+$PJES2
+Z EOD
+</pre>
+<h3>INS0150 - Take Snapshot # 5</h3>
+<p>This snapshot will NOT save all the dasd image files you have.  It will only save
+<ul>
+<li>MVSRES</li>
+<li>MVSDLB</li>
+<li>START1</li>
+<li>SPOOL*</li>
+<li>PUB000</li>
+</ul>
+We use START1.150 and SPOOL0.151 as an emergency system, and therefore keep
+saving them in the snapshot.  The other DASD image files, WORK*, SORT* etc are
+not saved.  It is your responsibility to devise backup mechanism for them if you need
+them.
+</p>
+<p>
+When you now start Hercules, and MVS, you will possibly see a message
+<pre>
+  *STC   31 *01 IKT003D TCAS UNABLE TO ACCEPT LOGONS, REASON CODE=0092 REPLY
+  * 'RETRY' OR 'TERM'
+</pre>
+This happens because TSO starts up faster than VTAM.  When VTAM has initialized, enter
+<pre>
+r 01,retry
+</pre>
+and then TSO will connect to VTAM.
+<h2>Complete the SMP/4 Environment</h2>
+<h3>MVS0100 - Build SMP Procedures</h3>
+<p>This jobs builds a few procedures in SYS1.PROCLIB fro SMP4 processing:
+<ul>
+<li>SMPREC  - Used for RECEIVE and REJECT</li>
+<li>SMPAPP  - Used for APPLY</li>
+<li>SMPACC  - Used for ACCEPT and RESTORE</li>
+<li>SMPASM  - Used to assemble a usermod</li>
+<li>SMPASML - Used to assemble and link a usermod</li>
+</ul>
+</p><p>Just run this job, no modifications are necessary, and no problems are expected.
+<h3>MVS0110 - Build SMP Libraries</h3>
+<p>In order to use SMP/4 on the target system we need the SMP/4 target libraries.
+The job <em>mvs0100</em> will allocate the files, and copy the contents of
+the DLIB SMP libraries into the newly created files.
+</p>
+<p>Note:  This job takes a long time, and uses quite a bit of CPU cycles.  In order
+to avoid S322 abends on somewhat slower machines, I have added a TIME=1440
+parameter to JOB and EXEC JCL statements
+</p>
+<h3>MVS0120 - Run JCLIN</h3>
+<p>
+The stage2 job contains the building instructions for making our MVS system.  Performing
+a JCLIN process as in <em>mvs0120</em> will feed these instructions into
+SMP/4. SMP will then be able to rebuild elements of the MVS system</p>
+<h3>MVS0130 - Install Usermod</h3>
+<p>
+To test the SMP/4 environment we will install a simple usermod which
+will authorize some external commands to TSO.  We will install these commands later,
+for now we will be happy when the usermod gets correctly installed.
+Just run
+the job <em>mvs0130</em> and check that the module IKJEFTE2 gets linked
+correctly.
+</p>
+<h3>MVS0140 - Building a private Maclib</h3>
+<p>
+For the next activity we need some private macros.  Just run this job to load
+the macros into SYS2.MACLIB
+</p>
+<h3>MVS0150 - Install another Usermod</h3>
+<p>
+Well, this was simple.  Now to a more complex adventure: A usermod that relinks
+the the master scheduler.  If this works, we can be rather sure that our sysgen process was
+successful.  The job <em>mvs0150</em> will assemble the element IEFACTRT and will ask
+SMP/4 to put it into our MVS.  After the job has finished, SMP/4 should have relinked
+module IEFW21SD.</p>
+<p>What does IEFACTRT do?
+It will put a job step completion summary in the top of
+the job log.  No need for hunting for the many COND CODE lines any more....
+Also, IEFACTRT does some step accounting.  I used some numbers from 20 years ago to give you an
+idea how much you would have to pay for running MVS jobs if this wouldn't be your
+private PC.....
+<br>
+You will see its action after the next IPL with the
+CLPA option.  Therefore - shutdown TSO, NET, MVS and re-IPL with CLPA
+<h3>MVS0160 - Install an APAR</h3>
+<p>
+When user log off from TSO, you will see an error message IEC233I for IGV0200V.
+<a href=mailto:pvwoude@trellis.net>Peter Vander Woude</a> has located an error resolution
+in the IBM service databases.  The relevant PTF is unfortunately no longer available, but he
+copied the information from the APAR AZ58122 and made it availble.  The job <em>mvs0170</em>
+will use SMP/4 to install this fix.  After installing it, an IPL with CLPA is required.
+</p>
+<h1>Addtional Software</h1>
+<p>MVS is up and running, The network is up, TSO is working - what more do we want?
+Well, there are dozens of little helper programs that can make your life easier
+when using TSO.  Many of these can be found on the so called CBT-Tape and/or CD-ROM.
+They are available in source code, and you might need to customize them before
+being able to use them.
+<h2>Preparing to build TSO Command Processors</h2>
+Some of the utilities are rather bulky (in terms of size of source code), while
+others are rather small.  For these small utilities we create a source file, and also
+a set of procedures to assembles (and link) the TSO commands into SYS2.CMDLIB.
+<h3>TSO0010 - ALLOC CP source file</h3>
+<p>The <em>tso0010</em> job creates a file SYS1.TSOCP.ASM to contain source for
+TSO command processors, and two procedures in SYS2.PROCLIB:
+<ul>
+<li>TSOASM - Assemble a TSO command processor</li>
+<li>TSOASML- Assemble and Link a TSO command processor</li>
+</ul>
+</p>
+<h3>TSO0020 - Assemble and link a tiny TSO command</h3>
+<p>The job <em>tso0010</em> assembles and links a tiny TSO command, called CLRSCRN.  It
+can be used to clear the screen of a 327x display terminal (Don't ask me why IBM hasn't
+provided such a command as part of the TSO package - they jsust didn't!).  Run this job
+to see if the command gets compiled correctly, and then log on to TSO to test it.  Oh, CLRSCRN
+is too much of typing for you?  The command has more than one name, pick the one
+you like most:
+<ul>
+<li>CLS</li>
+<li>SYSCLS</li>
+<li>CLEARS</li>
+<li>CLRSCRN</li>
+</ul>
+</p>
+<h3>TSO0030 - Load some TSP utilities</h3>
+<p>The job <em>tso0030</em> loads a few TSO utilities from tape into SYS2.CMDLIB.  When
+you run it, you must provide the tape file BSP001.HET (which is located in the tapes
+subdirectory).  The following commands will be installed (together
+with help members in SYS2.HELP:
+<dl>
+<dt>ASM</dt>
+<dd>An Assembler Prompter</dd>
+<dt>DENQ</dt>
+<dd>Displays ENQ conflicts</dd>
+<dt>DSAT</dt>
+<dd>Displays data set attributes</dd>
+<dt>DSPACE</dt>
+<dd>Displays free space on volumes</dd>
+<dt>DSN</dt>
+<dd>Alias of DENQ</dd>
+<dt>DVOL</dt>
+<dd>Displays mounted volumes</dd>
+<dt>FREEALL</dt>
+<dd>Frees all dynamically allcated files</dd>
+<dt>HEL</dt>
+<dd>Full Screen HELP command</dd>
+<dt>REVIEW</dt>
+<dd>Full Screen BROWSE program</dd>
+<dt>RLSE</dt>
+<dd>Release empty space from data set</dd>
+</dl>
+</p>
+<h2>RPF - Rob's Programming Facility</h2>
+<p>One thing is dearly missing in our MVS system: SPF.  Unfortunately, SPF is a licenced
+IBM software product, and there is little chance of legally getting a copy of it
+to run on MVS 3.8 and Hercules.
+<p>But there is a silver lining on the horizon:  Rob Prins has written
+a full screen editor that is somewhat SPF alike.
+<p>
+There is a
+<a href=rpfuguid.pdf>RPF User's Guide</a> in your doc directory.
+RPF is
+rather easy to implement:
+<h3>RPF0010 - Allocate RPF Files</h3>
+<p>This job will build some files (including the RPF source) on the PUB000 volume.  Read
+the JCL and the comments and make all the changes needed for your system, then run
+the job.  It will need the RPF product tape, which should be in
+<pre>
+../tapes/rpf130.het
+</pre>
+<h3>RPF0020 - Copy RPF to SYS2.CMDLIB</h3>
+<p>This job will copy the RPF load modules into SYS2.CMDLIB.  This has the advantage that
+<ul>
+<li>We do not need a steplib in the LOGON procedure</li>
+<li>The library is authorized automatically</li>
+</ul>
+<h3>RPF0030 - Build RPFKEY01</h3>
+<p>RPF needs a member in SYS1.PARMLIB for customization info.  This member is built
+by job <em>rpf0030</em>.  After this job is complete, RPF can be invoked from the
+TSO command prompt.
+</p>
+<h2>Q - A Queue Manager</h2>
+<p>Don't you just miss SDSF?  Well, we don't have the source for it and can't build it.
+but there is this thing called CBT Tape, which is very useful.  Among others I found
+the program <strong>QUEUE</strong>, aka <strong>QUE</strong>, aka (you guessed it)
+<strong>Q</strong>.  It allows you to look at the contents of the spool,
+browse output datasets, Syslog, etc.  It is not as comfortable as SDSF, but
+much better than the OUTPUT command
+</p>
+<h3>QUE0010 - Build Q libraries</h3>
+<p>Just run this job.  It will place the Q source into your system. You may want to
+invoke RPF and look into JES2.QUEUE.ASM.  There are two members where you might
+want to do some customization: QCOMMON and QSTART.  Read the comments in those members
+on where modifications might be required.</p><p>
+If you kept
+the names as suggested in this article you will not need any changes and can
+immediately compile queue by either submitting member COMPILE from the
+JES2.QUEUE.ASM dataset or by running job
+</p>
+<h3>QUE0020 - Assemble and link Q</h3>
+<p>This job will run a series of assemblies (35 altogether).  Each
+and everyone should get a RC=0, if not, the jobstream aborts on the first non-zero
+return code.  After all assemblies are done, the program is linked into SYS2.CMDLIB
+</p><p>
+In order to see which functions are available, press PF1 to show the first
+help screen.  When you press the ENTER key, the next help screens will be displayed
+</p>
+<h2>FSE - A Full Screen Editor</h2>
+<p>RPF is great - but it has one drawback!  It only allows editing of fixed length
+datasets.  Varying length records are not supported.  If you need those, you might
+consider installing FSE - the Full Screen Editor.
+<h3>INS0160 - Update FSE installation</h3>
+<p>Open the file <em>fse.sed</em> in the directory <em>conf</em>.  It contains control
+statements for the <em>sed</em> utility.  Follow the comments and instructions and
+change this member to fit your needs, then save it.
+</p>
+<p>Now run command script <em>ins0160</em>.  When this has finished, two new jobs
+will have appeared in your <em>jcl</em> directory:
+</p>
+<h3>FSE0010 - Build FSE libraries</h3>
+<p>
+Run this job unchanged, and it will create the FSE libraries on your system.
+After it has completed, run
+<h3>FSE0020 - Assemble and link FSE</h3>
+<p>Which does a bunch of assemblies and links, all of which
+should be successful.  Note, that an SVC will be linked into SYS1.LPALIB.  This
+means that you cannot use FSE until you have done an IPL with the CLPA option.
+</p>
+<h1>The CBT Tape - Readily Available on DASD</h1>
+<p>If you do not know, what the CBT tape is - go to <a href=http:/www.cbtorg.com>
+http://www.cbtorg.com</a> to find out more.  For MVS S3.8 the older CBT tapes are really
+interesting, as opposed to the newer ones, which use such new-fangled stuff as 31 bit addressing, weird
+set of additional registers, etc. etc. p. p.
+</p>
+I have created four 3350 disk volumes packed with PDS datasets containing the
+files from the following CBT tapes (in reverse chronological order)
+<ul>
+<li>CBT Tape 249</li>
+<li>CBT Overflow tape</li>
+<li>CBT Tape 429</li>
+</ul>
+On these volumes, there are two user catalogs, which you just need to import to your systems master
+catalog, to gain access to the files.  The file names are:
+<ul>
+<li>CBT249.FILE<em>nnn</em></li>
+<li>CBTOVF.FILE<em>nnn</em></li>
+<li>CBT429.FILE<em>nnn</em></li>
+</ul>
+<h2>INS0170 - Unpack CBT volumes</h2>
+<p>If you haven't done so already, shut down MVS and the Hercules engine.  Then run
+<em>ins0170</em>,
+<p>This installation script will unpack an archive and add 3 volumes to your
+MVS configuration file:
+<ul>
+<li>CBT000 on CUA 340</li>
+<li>CBT001 on CUA 341</li>
+<li>CBT002 on CUA 342</li>
+<li>CBT003 on CUA 343</li>
+</ul>
+When unpacking is complete, restart Hercules and MVS to make sure that you can access
+the newly created disk packs.  Then run
+<h3>CBT0010 - Import CBT Catalogs</h3>
+<p>This job will import and connect the two CBT catalogs on the
+CBT volumes, and will define the three high level qualifiers used so far:
+<ul>
+<li>CBT249</li>
+<li>CBTOVF</li>
+<li>CBT429</li>
+</ul>
+From now on, you can directly access the source of any provided utility (perhaps via RPF)
+and do whatever you want to do with it.
+<h1>Compilers and Utilities</h1>
+<p>Now the MVS System is somewhat useable.  But - useable for what?  Do you want
+to develop applications?  Well, no problem.  You can use any language you like, as long as
+it is assembler....  What if you are mpre fluent in another language?  The MVS distribution
+does not contain any other languages, but the OS/360 distribution does.  We can salvage parts of
+OS/360 and place it into MVS.  This work has been done by Jay Moseley, and I have reproduced
+it here for the sake of completenes.  His original work can be found at his page
+<a href=http://jaymoseley.terrashare.com/compilers/installing.htm>Compilers for MVS 3.8</a>
+<h2>COBOL</h2>
+<h3>LNG0010 - Load COBOL from tape</h3>
+<p>Running job <em>lng0010</em> will load the COBOL libraries and procedures to your MVS
+system
+</p>
+<h3>LNG0040 - Testing COBOL</h3>
+<p>Running job <em>lng0040</em> will compile, link, and run a COBOL "Hello World" program
+to test successful implementation
+</p>
+<h2>FORTRAN</h2>
+<p>Two FORTRAN compilers are available, FORTRAN G and FORTRAN H.  You get both by running
+<h3>LNG0020 - Load FORTRAN from tape</h3>
+<p>Running job <em>lng0020</em> will load the FORTRAN libraries and procedures to your MVS
+system
+</p>
+<h3>LNG0050 - Testing FORTRAN</h3>
+<p>Running job <em>lng0045</em> will compile, link, and run FORTRAN "Hello World" programs
+to test successful implementation of both compilers
+</p>
+<h2>PLI</h2>
+<h3>LNG0030 - Load PL1 from tape</h3>
+<p>Running job <em>lng0030</em> will load the PL1 libraries and procedures to your MVS
+system
+</p>
+<h3>LNG0060 - Testing PL1</h3>
+<p>Running job <em>lng0060</em> will compile, link, and run a PL1 "Hello World" program
+to test successful implementation of the compiler
+</p>
+<h2>SORT</h2>
+<p>A discussion of the sort parameters etc can be found in the
+<a href=mvtsort.pfd>Sort User's Guide</a> manual.
+</p>
+<h3>SORT010 - Load SORT from tape</h3>
+<p>Running job <em>sort010</em> will load the sort libraries to your MVS
+system
+</p>
+<h3>SORT020 - Testing SORT</h3>
+<p>Running job <em>sort020</em> will sort a file of 500 records
+to test successful implementation of the sort program
+</p>
+<h3>INS0180 - Snapshot # 6</h3>
+<p>Shut down MVS and the hercules engine, and then run <em>ins0180</em> to
+create the snapshot # 6.  This is the last snapshot for this installation.
+If you are satisfied with this build of the MVS system,
+you can delete the earlier snapshots to reclaim some disk space.
+</p>
+<h1>
+<center>
+Enjoy your private Mainframe
+</center>
+</h1>
