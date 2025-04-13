@@ -1,0 +1,175 @@
+TT32TEST read-me
+
+This is a quick and dirty program I used to test proper TunTap32.dll functionality.
+
+There's not much to it.
+
+Just start the program and you should see a blank window.
+
+(Note: you WON'T see any messages displayed during the test. Displaying messages
+in a scrollable window takes a certain amount of code and I didn't feel like
+taking the effort to do that. This is just a quick & dirty test program afterall.
+All messages are written to a debug o/p file and NOT to the screen.)
+
+After starting the program, select "Start..." from the Test menu and you should
+be presented with a dialog. Enter the two IP addresses required. The "virtual" IP
+address is the one you wish to use for Herc. The gateway IP address is the one
+already assigned to your network adapter. (It identifies which NIC that Herc is
+to use to reach the outside world.)  Click OK to start the test.
+
+You should then be asked "Do you want to save debug o/p to a file?"
+
+Answer "Yes" and enter a filename. The default is "debugout.txt".
+
+Once the test is started, a worker thread is created to "simulate" a running Herc.
+This thread can respond to pings and issue pings. That's it.
+
+So open a Windows "Command Prompt" window (or an "MSDOS Prompt" window if you're
+using Win98/Me) and try pinging the Herc IP address (i.e. the "virtual" IP addr).
+If everything is working properly you should get a reply.
+
+Then select "ping someone" from the Test menu and enter an IP address of who you
+want Herc to ping. The default is www.linux.org's IP address, but you might want
+to enter the IP address of a workstation on your LAN if you're not dialed in.
+
+After doing those two tests -- pinging "Herc" and having "Herc" ping someone else,
+then just exit the program and examine the debug o/p file to verify the pings worked.
+If they worked, you should see something similar to the following:
+
+======================
+
+** MonitorThread: TunTap32.DLL version 2.0.3.379  (2.0.3.379)
+Copyright (C) 2002-2003, Software Development Laboratories (aka 'Fish' (David B. Trout)).
+See source code for license information.
+
+** CTunTap::Open: m_bPhysicalIPAddr = 192.168.0.1
+** CTunTap::Open: m_bPhysicalMACAddr = 00-02-B3-8B-DF-60
+** Ping: Sending Ping from 192.168.0.4 to 198.182.196.56...
+ 0000  45000036 00000000 40012F2C C0A80004  *E..6....@./,....*
+ 0010  C6B6C438 08006962 00010001 61626364  *...8..ib....abcd*
+ 0020  65666768 696A6B6C 6D6E6F70 71727374  *efghijklmnopqrst*
+ 0030  75767778 797A                        *uvwxyz          *
+
+** Ping: Sending Ping from 192.168.0.4 to 198.182.196.56...
+ 0000  45000036 00000000 40012F2C C0A80004  *E..6....@./,....*
+ 0010  C6B6C438 08006961 00010002 61626364  *...8..ia....abcd*
+ 0020  65666768 696A6B6C 6D6E6F70 71727374  *efghijklmnopqrst*
+ 0030  75767778 797A                        *uvwxyz          *
+
+** Ping: Sending Ping from 192.168.0.4 to 198.182.196.56...
+ 0000  45000036 00000000 40012F2C C0A80004  *E..6....@./,....*
+ 0010  C6B6C438 08006960 00010003 61626364  *...8..i`....abcd*
+ 0020  65666768 696A6B6C 6D6E6F70 71727374  *efghijklmnopqrst*
+ 0030  75767778 797A                        *uvwxyz          *
+
+** HandleIPPacket: Herc got a reply to one of its PINGs!
+** PING reply from 198.182.196.56 to 192.168.0.4:
+ 0000  45000036 B9860000 300185A5 C6B6C438  *E..6....0......8*
+ 0010  C0A80004 00007162 00010001 61626364  *......qb....abcd*
+ 0020  65666768 696A6B6C 6D6E6F70 71727374  *efghijklmnopqrst*
+ 0030  75767778 797A                        *uvwxyz          *
+
+** HandleIPPacket: Herc got a reply to one of its PINGs!
+** PING reply from 198.182.196.56 to 192.168.0.4:
+ 0000  45000036 B9860000 300185A5 C6B6C438  *E..6....0......8*
+ 0010  C0A80004 00007162 00010001 61626364  *......qb....abcd*
+ 0020  65666768 696A6B6C 6D6E6F70 71727374  *efghijklmnopqrst*
+ 0030  75767778 797A                        *uvwxyz          *
+
+** HandleIPPacket: Herc got a reply to one of its PINGs!
+** PING reply from 198.182.196.56 to 192.168.0.4:
+ 0000  45000036 B9870000 300185A4 C6B6C438  *E..6....0......8*
+ 0010  C0A80004 00007161 00010002 61626364  *......qa....abcd*
+ 0020  65666768 696A6B6C 6D6E6F70 71727374  *efghijklmnopqrst*
+ 0030  75767778 797A                        *uvwxyz          *
+
+** HandleIPPacket: Herc got a reply to one of its PINGs!
+** PING reply from 198.182.196.56 to 192.168.0.4:
+ 0000  45000036 B9870000 300185A4 C6B6C438  *E..6....0......8*
+ 0010  C0A80004 00007161 00010002 61626364  *......qa....abcd*
+ 0020  65666768 696A6B6C 6D6E6F70 71727374  *efghijklmnopqrst*
+ 0030  75767778 797A                        *uvwxyz          *
+
+** HandleIPPacket: Herc got a reply to one of its PINGs!
+** PING reply from 198.182.196.56 to 192.168.0.4:
+ 0000  45000036 B9880000 300185A3 C6B6C438  *E..6....0......8*
+ 0010  C0A80004 00007160 00010003 61626364  *......q`....abcd*
+ 0020  65666768 696A6B6C 6D6E6F70 71727374  *efghijklmnopqrst*
+ 0030  75767778 797A                        *uvwxyz          *
+
+** HandleIPPacket: Herc got a reply to one of its PINGs!
+** PING reply from 198.182.196.56 to 192.168.0.4:
+ 0000  45000036 B9880000 300185A3 C6B6C438  *E..6....0......8*
+ 0010  C0A80004 00007160 00010003 61626364  *......q`....abcd*
+ 0020  65666768 696A6B6C 6D6E6F70 71727374  *efghijklmnopqrst*
+ 0030  75767778 797A                        *uvwxyz          *
+
+** HandleIPPacket: Someone is PINGing Herc!
+** Sending following PING reply from 192.168.0.4 to 192.168.0.1:
+ 0000  4500003C 0D1D0000 8001AC4E C0A80004  *E..<.......N....*
+ 0010  C0A80001 0000455C 02000E00 61626364  *......E\....abcd*
+ 0020  65666768 696A6B6C 6D6E6F70 71727374  *efghijklmnopqrst*
+ 0030  75767761 62636465 66676869           *uvwabcdefghi    *
+
+** HandleIPPacket: Someone is PINGing Herc!
+** Sending following PING reply from 192.168.0.4 to 192.168.0.1:
+ 0000  4500003C 0D1D0000 8001AC4E C0A80004  *E..<.......N....*
+ 0010  C0A80001 0000455C 02000E00 61626364  *......E\....abcd*
+ 0020  65666768 696A6B6C 6D6E6F70 71727374  *efghijklmnopqrst*
+ 0030  75767761 62636465 66676869           *uvwabcdefghi    *
+
+** HandleIPPacket: Someone is PINGing Herc!
+** Sending following PING reply from 192.168.0.4 to 192.168.0.1:
+ 0000  4500003C 0D1E0000 8001AC4D C0A80004  *E..<.......M....*
+ 0010  C0A80001 0000445C 02000F00 61626364  *......D\....abcd*
+ 0020  65666768 696A6B6C 6D6E6F70 71727374  *efghijklmnopqrst*
+ 0030  75767761 62636465 66676869           *uvwabcdefghi    *
+
+** HandleIPPacket: Someone is PINGing Herc!
+** Sending following PING reply from 192.168.0.4 to 192.168.0.1:
+ 0000  4500003C 0D1E0000 8001AC4D C0A80004  *E..<.......M....*
+ 0010  C0A80001 0000445C 02000F00 61626364  *......D\....abcd*
+ 0020  65666768 696A6B6C 6D6E6F70 71727374  *efghijklmnopqrst*
+ 0030  75767761 62636465 66676869           *uvwabcdefghi    *
+
+** HandleIPPacket: Someone is PINGing Herc!
+** Sending following PING reply from 192.168.0.4 to 192.168.0.1:
+ 0000  4500003C 0D1F0000 8001AC4C C0A80004  *E..<.......L....*
+ 0010  C0A80001 0000435C 02001000 61626364  *......C\....abcd*
+ 0020  65666768 696A6B6C 6D6E6F70 71727374  *efghijklmnopqrst*
+ 0030  75767761 62636465 66676869           *uvwabcdefghi    *
+
+** HandleIPPacket: Someone is PINGing Herc!
+** Sending following PING reply from 192.168.0.4 to 192.168.0.1:
+ 0000  4500003C 0D1F0000 8001AC4C C0A80004  *E..<.......L....*
+ 0010  C0A80001 0000435C 02001000 61626364  *......C\....abcd*
+ 0020  65666768 696A6B6C 6D6E6F70 71727374  *efghijklmnopqrst*
+ 0030  75767761 62636465 66676869           *uvwabcdefghi    *
+
+** TunTap32.dll Stats:
+
+  1048576  Size of Kernel Capture Buffer
+    65536  Size of DLL I/O Buffer
+      304  Maximum DLL I/O Bytes Received
+
+        9  Write Calls
+       11  Write I/Os
+       24  Read Calls
+       12  Read I/Os
+       26  Packets Read
+       11  Packets Written
+     2280  Bytes Read
+      732  Bytes Written
+        2  Internal Packets
+       12  Ignored Packets
+
+=========================
+
+If you DON'T see something like the above or you see strange error messages,
+then something is wrong. Send me your debug o/p along with the o/p from a
+tt32info run and I'll work with you to figure out what's going on.
+
+If you DO see o/p similar to the above, then CTCI-W32 is working properly and
+whatever problem you're experiencing is being caused by something else, such
+as bad Herc CTC device statements or a bad TCP/IP configuration in your Herc
+guest operating system (i.e. OS/390, MVS, VM, etc).
