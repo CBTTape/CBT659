@@ -1,34 +1,34 @@
-2025-04-13 21:36:36.410719 - Received CBT.V508.FILE659.PDS from FILE659.XMI 
-2025-04-13 21:36:36.412320 - Found $$$#DATE.txt (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/$$$#DATE
-2025-04-13 21:36:36.412401 - Found $$NOTE01.txt (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/$$NOTE01
-2025-04-13 21:36:36.412466 - Found $$README.txt (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/$$README
-2025-04-13 21:36:36.412541 - Found $INSTRUC.txt (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/$INSTRUC
-2025-04-13 21:36:36.412613 - Found @FILE659.txt (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/@FILE659
-2025-04-13 21:36:36.412672 - Found ALLOC.jcl (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/ALLOC
-2025-04-13 21:36:36.412747 - Found AWSTAPE.jcl (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/AWSTAPE
-2025-04-13 21:36:36.412807 - Found DASDINIT.txt (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/DASDINIT
-2025-04-13 21:36:36.412865 - Found DFDSSBK.jcl (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/DFDSSBK
-2025-04-13 21:36:36.412926 - Found DFDSSRS.jcl (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/DFDSSRS
-2025-04-13 21:36:36.412983 - Found DFDSSSAR.jcl (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/DFDSSSAR
-2025-04-13 21:36:36.413042 - Found DISCLAIM.txt (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/DISCLAIM
-2025-04-13 21:36:36.413099 - Found DISKMAP.jcl (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/DISKMAP
-2025-04-13 21:36:36.413157 - Found FDRBACKV.jcl (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/FDRBACKV
-2025-04-13 21:36:36.413215 - Found FDRRESTV.jcl (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/FDRRESTV
-2025-04-13 21:36:36.413331 - Found GZIP.x-dosexec (application/x-dosexec) in CBT.V508.FILE659.PDS, moved to PDS/GZIP
-2025-04-13 21:36:36.413393 - Found GZIPFILE.jcl (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/GZIPFILE
-2025-04-13 21:36:36.413830 - Found GZIPXMIT.x-mp4a-latm (audio/x-mp4a-latm) in CBT.V508.FILE659.PDS, moved to PDS/GZIPXMIT
-2025-04-13 21:36:36.450458 - Found HERC216.zip (application/zip) in CBT.V508.FILE659.PDS, moved to HERC216
-2025-04-13 21:36:36.503293 - Found HERC306.zip (application/zip) in CBT.V508.FILE659.PDS, moved to HERC306
-2025-04-13 21:36:36.547949 - Found HERC308W.zip (application/zip) in CBT.V508.FILE659.PDS, moved to HERC308W
-2025-04-13 21:36:36.589746 - Found H312W32.zip (application/zip) in CBT.V508.FILE659.PDS, moved to H312W32
-2025-04-13 21:36:36.634644 - Found H312W64.zip (application/zip) in CBT.V508.FILE659.PDS, moved to H312W64
-2025-04-13 21:36:36.634840 - Found INITPACK.jcl (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/INITPACK
-2025-04-13 21:36:36.634977 - Found LOADLIB.xmi (application/xmit) in CBT.V508.FILE659.PDS, moved to PDS/LOADLIB.xmi
-2025-04-13 21:36:36.646359 - Received IBMUSER.FILE659.LOAD from LOADLIB.xmi 
-2025-04-13 21:36:36.646842 - Found DISKMAP.bin (application/octet-stream) in IBMUSER.FILE659.LOAD, moved to LOADLIB/DISKMAP
-2025-04-13 21:36:36.646969 - Found ZAP.bin (application/octet-stream) in IBMUSER.FILE659.LOAD, moved to LOADLIB/ZAP
-2025-04-13 21:36:36.647029 - Found alias ZAP$ to ZAP in IBMUSER.FILE659.LOAD, moved to PDS/ZAP$
-2025-04-13 21:36:36.647268 - Found QUICKINS.txt (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/QUICKINS
-2025-04-13 21:36:36.647957 - Found WINPCAP.x-dosexec (application/x-dosexec) in CBT.V508.FILE659.PDS, moved to PDS/WINPCAP
-2025-04-13 21:36:36.648057 - Found XMITFILE.jcl (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/XMITFILE
-2025-04-13 21:36:36.656642 - Found XMITMAN.zip (application/zip) in CBT.V508.FILE659.PDS, moved to XMITMAN
+2025-04-15 04:21:29.001989 - Received CBT.V508.FILE659.PDS from FILE659.XMI 
+2025-04-15 04:21:29.003910 - Found $$$#DATE.txt (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/$$$#DATE
+2025-04-15 04:21:29.004466 - Found $$NOTE01.txt (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/$$NOTE01
+2025-04-15 04:21:29.004678 - Found $$README.txt (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/$$README
+2025-04-15 04:21:29.004927 - Found $INSTRUC.txt (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/$INSTRUC
+2025-04-15 04:21:29.005138 - Found @FILE659.txt (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/@FILE659
+2025-04-15 04:21:29.005311 - Found ALLOC.jcl (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/ALLOC
+2025-04-15 04:21:29.005511 - Found AWSTAPE.jcl (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/AWSTAPE
+2025-04-15 04:21:29.005718 - Found DASDINIT.txt (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/DASDINIT
+2025-04-15 04:21:29.005881 - Found DFDSSBK.jcl (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/DFDSSBK
+2025-04-15 04:21:29.006105 - Found DFDSSRS.jcl (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/DFDSSRS
+2025-04-15 04:21:29.006342 - Found DFDSSSAR.jcl (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/DFDSSSAR
+2025-04-15 04:21:29.006556 - Found DISCLAIM.txt (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/DISCLAIM
+2025-04-15 04:21:29.006759 - Found DISKMAP.jcl (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/DISKMAP
+2025-04-15 04:21:29.006952 - Found FDRBACKV.jcl (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/FDRBACKV
+2025-04-15 04:21:29.007142 - Found FDRRESTV.jcl (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/FDRRESTV
+2025-04-15 04:21:29.007881 - Found GZIP.x-dosexec (application/x-dosexec) in CBT.V508.FILE659.PDS, moved to PDS/GZIP
+2025-04-15 04:21:29.008217 - Found GZIPFILE.jcl (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/GZIPFILE
+2025-04-15 04:21:29.010707 - Found GZIPXMIT.x-mp4a-latm (audio/x-mp4a-latm) in CBT.V508.FILE659.PDS, moved to PDS/GZIPXMIT
+2025-04-15 04:21:29.052947 - Found HERC216.zip (application/zip) in CBT.V508.FILE659.PDS, moved to HERC216
+2025-04-15 04:21:29.115202 - Found HERC306.zip (application/zip) in CBT.V508.FILE659.PDS, moved to HERC306
+2025-04-15 04:21:29.175753 - Found HERC308W.zip (application/zip) in CBT.V508.FILE659.PDS, moved to HERC308W
+2025-04-15 04:21:29.232102 - Found H312W32.zip (application/zip) in CBT.V508.FILE659.PDS, moved to H312W32
+2025-04-15 04:21:29.290033 - Found H312W64.zip (application/zip) in CBT.V508.FILE659.PDS, moved to H312W64
+2025-04-15 04:21:29.290445 - Found INITPACK.jcl (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/INITPACK
+2025-04-15 04:21:29.291347 - Found LOADLIB.xmi (application/xmit) in CBT.V508.FILE659.PDS, moved to PDS/LOADLIB.xmi
+2025-04-15 04:21:29.303515 - Received IBMUSER.FILE659.LOAD from LOADLIB.xmi 
+2025-04-15 04:21:29.304554 - Found DISKMAP.bin (application/octet-stream) in IBMUSER.FILE659.LOAD, moved to LOADLIB/DISKMAP
+2025-04-15 04:21:29.305026 - Found ZAP.bin (application/octet-stream) in IBMUSER.FILE659.LOAD, moved to LOADLIB/ZAP
+2025-04-15 04:21:29.305152 - Found alias ZAP$ to ZAP in IBMUSER.FILE659.LOAD, moved to PDS/ZAP$
+2025-04-15 04:21:29.305484 - Found QUICKINS.txt (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/QUICKINS
+2025-04-15 04:21:29.307563 - Found WINPCAP.x-dosexec (application/x-dosexec) in CBT.V508.FILE659.PDS, moved to PDS/WINPCAP
+2025-04-15 04:21:29.307910 - Found XMITFILE.jcl (text/plain) in CBT.V508.FILE659.PDS, moved to PDS/XMITFILE
+2025-04-15 04:21:29.317975 - Found XMITMAN.zip (application/zip) in CBT.V508.FILE659.PDS, moved to XMITMAN
